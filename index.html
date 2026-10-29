@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1e1b4b">
+<title>چک‌لیست انرژی ساختمان به روش تجویزی — مبحث ۱۹ ویرایش ۵</title>
+<meta name="description" content="سامانه آنلاین تکمیل چک‌لیست انرژی ساختمان به روش تجویزی مطابق مبحث ۱۹ ویرایش ۵: تعیین رده انرژی، شناسایی موارد نیازمند اصلاح و دریافت گزارش نهایی به‌صورت PDF.">
+<meta property="og:title" content="چک‌لیست انرژی ساختمان به روش تجویزی — مبحث ۱۹ ویرایش ۵">
+<meta property="og:description" content="تکمیل چک‌لیست، تعیین رده انرژی و دریافت گزارش PDF، سریع و منظم.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css">
+<style>
+:root{--navy:#0f1b4d;--indigo:#312e81;--blue:#2563eb;--purple:#6d28d9;--text:#1b2140;--muted:#5b6485;--grad:linear-gradient(120deg,#2563eb,#6d28d9);--r:22px;--glass:rgba(255,255,255,.1);--line:rgba(255,255,255,.2)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{margin:0;font-family:Vazirmatn,Tahoma,"Segoe UI",Arial,sans-serif;color:#e8ebff;line-height:1.9;background:linear-gradient(180deg,#0b1437 0%,#1e1b4b 38%,#2e1f6b 68%,#0b1437 100%);background-attachment:scroll}
+a{color:inherit}
+.wrap{width:min(1120px,100%);margin:auto;padding:0 20px}
+section{position:relative;padding:76px 0}
+h1,h2,h3{line-height:1.5;margin:0}
+h2{font-size:clamp(24px,3.2vw,34px);text-align:center;margin-bottom:10px}
+.lead{text-align:center;color:#c3c9f0;max-width:680px;margin:0 auto 38px}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 14px 40px rgba(5,10,40,.35)}
+/* header */
+header{position:sticky;top:12px;z-index:10;padding:0 12px}
+.bar{width:min(1000px,100%);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 18px;border-radius:999px}
+.logo{font-weight:800;font-size:15px;text-decoration:none}
+nav{display:flex;gap:18px;font-size:14px}
+nav a{text-decoration:none;color:#c3c9f0}nav a:hover{color:#fff}
+/* hero */
+.hero{padding:90px 0 80px;text-align:center}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none}
+.o1{width:360px;height:360px;background:#2563eb;top:-80px;right:-60px}.o2{width:320px;height:320px;background:#7c3aed;bottom:-60px;left:-40px}
+.hero .wrap{position:relative}
+.chip{display:inline-block;padding:6px 16px;border-radius:999px;font-size:13px;color:#dbe0ff;margin-bottom:22px}
+h1{font-size:clamp(28px,5vw,50px);font-weight:800;max-width:900px;margin:0 auto 18px}
+h1 .w{display:inline-block;opacity:0;transform:translateY(14px);filter:blur(6px);animation:rise .7s ease forwards;animation-delay:calc(var(--i)*.09s + .2s)}
+@keyframes rise{to{opacity:1;transform:none;filter:none}}
+.sub{max-width:640px;margin:0 auto 32px;color:#c3c9f0;font-size:17px;opacity:0;animation:fade .8s ease 2.1s forwards}
+.cta-row{opacity:0;animation:fade .8s ease 2.4s forwards}
+@keyframes fade{to{opacity:1}}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:16px 34px;border-radius:18px;background:var(--grad);color:#fff;font-weight:800;font-size:18px;text-decoration:none;box-shadow:0 12px 32px rgba(79,70,229,.5),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .2s,box-shadow .2s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(79,70,229,.6),inset 0 1px 0 rgba(255,255,255,.3)}
+.cta svg{width:20px;height:20px}
+.note{margin-top:14px;font-size:13px;color:#aab2e6}
+/* cards */
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.card{padding:26px 22px}
+.card h3{font-size:18px;margin:14px 0 6px}
+.card p{margin:0;color:#c3c9f0;font-size:15px}
+.ic{width:46px;height:46px;border-radius:14px;background:var(--grad);display:grid;place-items:center}
+.ic svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.step .n{font-size:13px;color:#a5b4fc;font-weight:700}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+/* trust / time */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}
+.panel{padding:30px 26px}
+.panel h2{text-align:right;font-size:24px}
+.panel ul{margin:12px 0 0;padding:0;list-style:none}
+.panel li{padding:6px 0 6px 0;color:#d5daf7;display:flex;gap:10px}
+.panel li:before{content:"";flex:none;width:8px;height:8px;margin-top:11px;border-radius:50%;background:#818cf8}
+.final{text-align:center;padding:48px 24px}
+/* contact + footer */
+.mail{display:inline-block;margin-top:6px;padding:12px 24px;border-radius:14px;font-weight:700;text-decoration:none;direction:ltr}
+.mail:hover{background:rgba(255,255,255,.18)}
+footer{padding:30px 0 40px;text-align:center;color:#9aa3d8;font-size:13px;border-top:1px solid rgba(255,255,255,.1)}
+:focus-visible{outline:3px solid #a5b4fc;outline-offset:3px}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}.split{grid-template-columns:1fr}nav{display:none}.bar{justify-content:center}}
+@media(max-width:560px){section{padding:56px 0}.hero{padding:60px 0 56px}.g4,.g2{grid-template-columns:1fr}.cta{width:100%;justify-content:center}}
+@media(prefers-reduced-motion:reduce){h1 .w,.sub,.cta-row,.reveal{animation:none!important;opacity:1;transform:none;filter:none;transition:none}}
+</style>
+</head>
+<body>
+<header><div class="bar glass">
+  <a class="logo" href="#top">چک‌لیست انرژی تجویزی</a>
+  <nav aria-label="پیمایش صفحه"><a href="#benefits">مزایا</a><a href="#how">نحوه کار</a><a href="#features">قابلیت‌ها</a><a href="#basis">مبنا</a><a href="#contact">تماس</a></nav>
+</div></header>
+
+<main id="top">
+<section class="hero" aria-labelledby="welcome">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="wrap">
+    <span class="chip glass">مبحث ۱۹ مقررات ملی ساختمان — ویرایش ۵</span>
+    <h1 id="welcome">به سامانه تکمیل چک‌لیست انرژی به روش تجویزی مطابق مبحث ۱۹ ویرایش ۵ خوش آمدید.</h1>
+    <p class="sub">چک‌لیست را قدم‌به‌قدم تکمیل کنید؛ رده انرژی ساختمان، موارد نیازمند اصلاح و گزارش نهایی را بدون تهیه دستی گزارش دریافت کنید.</p>
+    <div class="cta-row">
+      <a class="cta" href="app.html">شروع تکمیل چک‌لیست
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
+      <div class="note">بدون نیاز به ثبت‌نام؛ نتیجه به‌صورت گزارش PDF</div>
+    </div>
+  </div>
+</section>
+
+<section id="benefits" aria-labelledby="t1"><div class="wrap">
+  <h2 id="t1">چرا این سامانه؟</h2>
+  <p class="lead">برای مهندسان طراح و ناظر که می‌خواهند چک‌لیست انرژی ساختمان را دقیق و در کمترین زمان تکمیل کنند.</p>
+  <div class="grid g3">
+    <article class="card glass reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>صرفه‌جویی در زمان</h3><p>گزارش نهایی خودکار تولید می‌شود و نیازی به تنظیم دستی آن نیست.</p></article>
+    <article class="card glass reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div><h3>دقت و نظم</h3><p>فقط بندهایی که برای ساختمان شما موضوعیت دارند نمایش داده می‌شوند.</p></article>
+    <article class="card glass reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div><h3>گزارش آماده ارائه</h3><p>خروجی PDF با مشخصات پروژه، نتیجه، رده انرژی و موارد اصلاحی.</p></article>
+  </div>
+</div></section>
+
+<section id="how" aria-labelledby="t2"><div class="wrap">
+  <h2 id="t2">چگونه کار می‌کند؟</h2>
+  <p class="lead">چهار گام ساده از ورود مشخصات تا دریافت گزارش.</p>
+  <ol class="grid g4" style="list-style:none;padding:0;margin:0">
+    <li class="card glass step reveal"><span class="n">گام ۱</span><h3>مشخصات پروژه</h3><p>استان، شهر، طراحان و تاریخ طراحی را وارد کنید.</p></li>
+    <li class="card glass step reveal"><span class="n">گام ۲</span><h3>اقلیم و ساختمان</h3><p>اقلیم و مشخصات کلی ساختمان را تعیین کنید.</p></li>
+    <li class="card glass step reveal"><span class="n">گام ۳</span><h3>تکمیل چک‌لیست</h3><p>به پرسش‌های هر بند پاسخ دهید و نتیجه را همان لحظه ببینید.</p></li>
+    <li class="card glass step reveal"><span class="n">گام ۴</span><h3>گزارش PDF</h3><p>امتیاز، رده انرژی و اقدامات اصلاحی را دریافت کنید.</p></li>
+  </ol>
+</div></section>
+
+<section id="features" aria-labelledby="t3"><div class="wrap">
+  <h2 id="t3">قابلیت‌های اصلی</h2>
+  <p class="lead">هر آنچه برای ارزیابی انرژی ساختمان به روش تجویزی لازم است.</p>
+  <div class="grid g2">
+    <article class="card glass reveal"><h3>تعیین رده انرژی ساختمان</h3><p>امتیازدهی بر پایه پیوست ۵ و تعیین قبولی یا مردودی ساختمان.</p></article>
+    <article class="card glass reveal"><h3>شناسایی موارد نیازمند اصلاح</h3><p>برای هر بند رعایت‌نشده، اقدام اصلاحی پیشنهادی ارائه می‌شود.</p></article>
+    <article class="card glass reveal"><h3>پشتیبانی از اقلیم‌های ۰ تا ۵</h3><p>حدود مجاز بر اساس اقلیم دقیق پروژه اعمال می‌شود.</p></article>
+    <article class="card glass reveal"><h3>جداول و نقشه‌های مرجع</h3><p>تصاویر جداول مبحث ۱۹ در جای خود در دسترس و قابل بزرگ‌نمایی است.</p></article>
+  </div>
+</div></section>
+
+<section id="basis" aria-labelledby="t4"><div class="wrap split">
+  <div class="panel glass reveal"><h2 id="t4">مبنای فنی</h2>
+    <ul><li>بر پایه پیوست ۵ و فصل پنجم مبحث ۱۹ مقررات ملی ساختمان (ویرایش ۵)</li><li>چک‌لیست و روش امتیازدهی بر اساس همان پیوست</li><li>ثبت رسمی نتایج در سامانه ملی ارزیابی انرژی ساختمان طبق ضوابط انجام می‌شود</li></ul></div>
+  <div class="panel glass reveal"><h2>کار امروز، در زمان کمتر</h2>
+    <ul><li>بدون تنظیم دستی گزارش پس از تکمیل چک‌لیست</li><li>بدون جست‌وجوی جداگانه حدود مجاز هر اقلیم</li><li>مشخصات پروژه فقط یک‌بار وارد می‌شود و در گزارش درج می‌گردد</li></ul></div>
+</div></section>
+
+<section aria-labelledby="t5"><div class="wrap"><div class="final glass reveal">
+  <h2 id="t5">آماده شروع هستید؟</h2>
+  <p class="lead" style="margin-bottom:24px">چک‌لیست انرژی پروژه خود را همین حالا تکمیل کنید.</p>
+  <a class="cta" href="app.html">شروع تکمیل چک‌لیست
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
+</div></div></section>
+
+<section id="contact" aria-labelledby="t6" style="padding-top:20px"><div class="wrap" style="text-align:center">
+  <h2 id="t6">تماس با ما</h2>
+  <p class="lead" style="margin-bottom:14px">برای پرسش، پیشنهاد یا گزارش مشکل، ایمیل بزنید.</p>
+  <a class="mail glass" href="mailto:scheck19.online@gmail.com">scheck19.online@gmail.com</a>
+</div></section>
+</main>
+
+<footer><div class="wrap">چک‌لیست انرژی به روش تجویزی — مطابق مبحث ۱۹ مقررات ملی ساختمان، ویرایش ۵</div></footer>
+
+<script>
+(function(){
+  var h=document.getElementById('welcome'),words=h.textContent.trim().split(/\s+/);
+  h.setAttribute('aria-label',h.textContent.trim());
+  h.innerHTML=words.map(function(w,i){return '<span class="w" aria-hidden="true" style="--i:'+i+'">'+w+'</span>'}).join(' ');
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+    els.forEach(function(el,i){el.style.transitionDelay=(i%4)*70+'ms';io.observe(el)});
+  }else{els.forEach(function(el){el.classList.add('in')})}
+})();
+</script>
+</body>
+</html>
