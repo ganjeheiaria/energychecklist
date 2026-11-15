@@ -96,7 +96,7 @@ async def zarinpal_callback(request: Request):
         if not order:
             raise HTTPException(status_code=404, detail="Payment order not found.")
         if order.status == "paid":
-            return RedirectResponse(f"{APP_URL}?payment=success&report={order.public_id}")
+            return RedirectResponse(f"{PUBLIC_BASE_URL}/r/{order.public_id}")
         if status.upper() != "OK":
             order.status = "cancelled"
             db.commit()
@@ -127,7 +127,7 @@ async def zarinpal_callback(request: Request):
             order.paid_at = datetime.now(timezone.utc)
             db.commit()
         public_id = order.public_id
-    return RedirectResponse(f"{APP_URL}?payment=success&report={public_id}")
+    return RedirectResponse(f"{PUBLIC_BASE_URL}/r/{public_id}")
 
 @app.get("/r/{public_id}")
 def open_public_report(public_id: str):
@@ -136,7 +136,7 @@ def open_public_report(public_id: str):
         if not order or order.status != "paid":
             raise HTTPException(status_code=404, detail="Report not found.")
         token = order.report_token
-    return RedirectResponse(f"{APP_URL}#r={token}")
+    return RedirectResponse(f"{APP_URL}?paid_report={public_id}#r={token}")
 
 @app.get("/api/reports/{public_id}/status")
 def report_status(public_id: str):
