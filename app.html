@@ -414,7 +414,20 @@ function analysisHtml(res,label=''){
   h+=`<p style="color:#37474f">${esc(MODEL.report_footer)}</p></div>`;return h;
 }
 function renderResult(){const res=compute();state.lastResult=res;const label=res.climate!=null?MODEL.climate_names[String(res.climate)]:'';let html=titleBlock('نتیجه ارزیابی به روش تجویزی')+sharedBanner()+hostNote();if(!res.gate)html+=alertBox('مردود — نمره ۰ از ۱۰۰۰\nپیش‌شرط استفاده از روش تجویزی (نسبت نورگذر ≤ ۵۰٪ در هر نما) برقرار نیست.','danger');else{const ok=res.accepted;html+=`<div class="scorebox ${ok?'ok':'fail'}"><div class="score-big">امتیاز کل: ${fmt(Math.round(res.total*10)/10,1)} از ۱۰۰۰</div><div class="status ${ok?'ok':'fail'}">${ok?'قبول ✓ حداقل رده انرژی D احراز شد':'مردود ✗ رده D احراز نشد'}</div><div class="gauge"><div class="gauge-fill ${ok?'ok':'fail'}" style="width:${Math.max(0,Math.min(100,res.total/10))}%"></div><div class="gauge-mark" style="right:90%"></div><div class="gauge-label" style="right:90%">حد قبولی: ۹۰۰</div><span class="gauge-ext right">۰</span><span class="gauge-ext left">۱۰۰۰</span></div></div>`;for(const s of res.sections){const pct=s.weight?Math.max(0,Math.min(100,s.score/s.weight*100)):0;html+=`<div class="section-card"><div class="section-row"><div>${escapeText(s.title)}</div><div class="meter"><span style="width:${pct}%"></span></div><div class="meter-label">${fmt(Math.round(s.score*10)/10,1)} از ${fmt(s.weight)}</div></div></div>`}}
-  const report=analysisHtml(res,label);state.lastHtml=report;html+=projectBlock()+report+`<div class="toolbar no-print"><button class="btn primary" id="printBtn">دانلود گزارش PDF</button><button class="btn ghost" id="restartBtn">شروع مجدد</button></div>`;app.innerHTML=html;$('#printBtn').onclick=()=>downloadPdf($('#printBtn'));const bb=$('#bannerPdfBtn');if(bb)bb.onclick=()=>downloadPdf(bb);$('#restartBtn').onclick=restart;}
+  const report=analysisHtml(res,label);state.lastHtml=report;html+=projectBlock()+report+`<div class="toolbar no-print">${state.shared||state.paidReportId?'<button class="btn primary" id="printBtn">دانلود گزارش PDF</button>':'<button class="btn primary" id="payPdfBtn">پرداخت و دریافت گزارش PDF</button>'}<button class="btn ghost" id="restartBtn">شروع مجدد</button></div>`;app.innerHTML=html;const pb=$('#printBtn');if(pb)pb.onclick=()=>downloadPdf(pb);const pay=$('#payPdfBtn');if(pay)pay.onclick=()=>startPdfPayment(pay);const bb=$('#bannerPdfBtn');if(bb)bb.onclick=()=>downloadPdf(bb);$('#restartBtn').onclick=restart;}
+
+/* ---- Paid PDF checkout. Configure the HTTPS API origin after deployment. ---- */
+const PAYMENT_API_BASE='';
+async function startPdfPayment(btn){
+  if(!PAYMENT_API_BASE){toast('آدرس API پس از تهیه دامنه و سرور باید تنظیم شود.');return}
+  const label=btn.textContent;btn.disabled=true;btn.textContent='در حال اتصال به درگاه…';
+  try{
+    const meta=await buildReportMeta();if(!meta)throw new Error('گزارش آماده نشد');
+    const response=await fetch(PAYMENT_API_BASE.replace(/\\/$/,'')+'/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({report_token:meta.token})});
+    const data=await response.json();if(!response.ok||!data.payment_url)throw new Error(typeof data.detail==='string'?data.detail:'درخواست پرداخت ناموفق بود');
+    location.href=data.payment_url;
+  }catch(e){console.error(e);toast(e.message||'خطا در شروع پرداخت');btn.disabled=false;btn.textContent=label}
+}
 
 /* ---- One-click PDF: pages are rendered by the browser (correct Persian shaping) and packed into a PDF without any library ---- */
 const PDF_W=794,PDF_H=1123,PDF_PX=2,PDF_PADX=40,PDF_TOP=52,PDF_BOT=50;
@@ -498,10 +511,12 @@ async function buildReportMeta(){
     const raw=new TextEncoder().encode(JSON.stringify(buildPayload()));
     const token=toB64u(typeof CompressionStream==='undefined'?raw:await zipBytes(raw,true));
     const base=REPORT_BASE_URL||location.href.split('#')[0].split('?')[0],url=base+'#r='+token,id=reportId(token);
-    /* The QR holds only the report ID, so a scan shows that ID as plain text */
-    const q=qrEncode(id,'M');
+    /* Paid report QR resolves through the server and opens this exact report. */
+    const paidId=state.paidReportId||new URLSearchParams(location.search).get('paid_report');
+    const qrTarget=paidId&&PAYMENT_API_BASE?PAYMENT_API_BASE.replace(/\\/$/,'')+'/r/'+encodeURIComponent(paidId):url;
+    const q=qrEncode(qrTarget,'M');
     if(!q)return null;
-    return {url,token,id,dateFa:faDate(reportDay()),qrSvg:qrSvg(q,(q.size+8)*5),local:false};
+    return {url,token,id,qrTarget,dateFa:faDate(reportDay()),qrSvg:qrSvg(q,(q.size+8)*5),local:false};
   }catch(e){console.error(e);return null}
 }
 async function loadSharedReport(token){
@@ -521,10 +536,11 @@ function hostNote(){return ''}
 function sharedBanner(){return state.shared?`<div class="alert info no-print">این گزارش با اسکن QR بازیابی شده است.<br>شناسه گزارش: <b dir="ltr">${esc(state.sharedId)}</b> — تاریخ تهیه: ${esc(faDate(state.reportDay))}<br>برای ذخیره‌ی فایل، دکمه‌ی زیر را بزنید.<br><button class="btn primary" id="bannerPdfBtn" style="margin-top:8px">دانلود گزارش PDF</button></div>`:''}
 function pdfHead(){
   const m=state.reportMeta;
-  const qr=m?`<div style="width:${(m.qrSvg.match(/width="([\d.]+)"/)||[0,170])[1]}px;flex:none;text-align:center">${m.qrSvg}<div style="font-size:10.5px;line-height:1.7;color:#3a4266;margin-top:2px">با اسکن QR، شناسه‌ی گزارش نمایش داده می‌شود<br>شناسه گزارش: <b dir="ltr">${esc(m.id)}</b><br>تاریخ تهیه: ${esc(m.dateFa)}</div></div>`:'';
+  const qr=m?`<div style="width:${(m.qrSvg.match(/width="([\d.]+)"/)||[0,170])[1]}px;flex:none;text-align:center">${m.qrSvg}<div style="font-size:10.5px;line-height:1.7;color:#3a4266;margin-top:2px">با اسکن QR، همین گزارش در سامانه باز می‌شود<br>شناسه گزارش: <b dir="ltr">${esc(m.id)}</b><br>تاریخ تهیه: ${esc(m.dateFa)}</div></div>`:'';
   return `<div style="display:flex;gap:18px;align-items:flex-start;justify-content:space-between"><div style="flex:1"><h1>گزارش ارزیابی انرژی ساختمان به روش تجویزی</h1><div class="sub">مطابق پیوست ۵ و فصل پنجم مبحث ۱۹ مقررات ملی ساختمان (ویرایش ۵)</div></div>${qr}</div>`;
 }
 async function bootApp(){
+  state.paidReportId=new URLSearchParams(location.search).get('paid_report')||null;
   const m=location.hash.match(/^#r=([A-Za-z0-9_-]+)$/);
   if(!m){renderCurrent();return}
   app.innerHTML='<div class="card">در حال بازیابی گزارش…</div>';
